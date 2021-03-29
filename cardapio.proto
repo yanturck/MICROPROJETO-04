@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package cardapio;
+
+message Cardapio {
+    string item = 1;
+    float preco = 2;
+}
+
+message ImprimeCardapio {
+    repeated Cardapio cardapio = 1;
+}
+
+message Posicao {
+    int32 posicao = 1;
+}
+
+message Vazio { }
+
+
+service ServicoCardapio {
+    rpc ListaItens (Vazio) returns (ImprimeCardapio);
+    rpc ConsultaItem (Posicao) returns (Cardapio);
+    rpc CadastraItem (Cardapio) returns (Vazio);
+}

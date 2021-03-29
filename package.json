@@ -1,0 +1,17 @@
+{
+  "name": "microprojeto-04",
+  "version": "1.0.0",
+  "description": "MicroProjeto 04 - Implementaçao de um servico delivery em gRPC",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Yan Rocha Pimenta",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.6",
+    "grpc": "^1.24.6",
+    "nodemon": "^2.0.7"
+  }
+}
