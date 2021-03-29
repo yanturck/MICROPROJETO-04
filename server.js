@@ -15,15 +15,19 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition).cardapio;
 
 const servicoCardapio = protoDescriptor.ServicoCardapio;
 
-var itensCardapio = [];
+var itensCardapio = [{nome: 'Pizza', preco: 25.00},
+                    {nome: 'Coxinha', preco: 4.50},
+                    {nome: 'Hamburguer', preco: 8.00},
+                    {nome: 'Refrigerante 1L', preco: 2.00}];
 var itensPedidos = [];
+const senha = '123456';
+var admin = false;
 
+/* =========================== FUNCOES PARA O CARDAPIO =========================== */
 function listarItens(call, callback) {
-    // console.log("O cardapio do dia é:\n");
     callback(null, {cardapio: itensCardapio});
 }
 function consultaItem(call, callback) {
-    // console.log("Busca concluida: " + call.request.posicao);
     const posicao = call.request.posicao;
     callback(null, intensCardapio[posicao]);
 }
@@ -32,7 +36,6 @@ function cadastraItem(call, callback) {
         item: call.request.item,
         preco: call.request.preco
     }
-    // console.log("O item " + JSON.stringify(cardapio));
     itensCardapio.push(cardapio);
     callback(null, {});
 }
@@ -40,40 +43,34 @@ function excluirItem(call, callback){
     const posicao = call.request.posicao - 1;
 
     if(posicao >= itensCardapio.length){
-        console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
+        //console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
     }else {
         itensCardapio.splice(posicao,1);
-        console.log('Item apagado com sucesso!');
+        //console.log('Item apagado com sucesso!');
     }
 }
+/* =========================== FUNCOES PARA OS PEDIDOS =========================== */
 function realizarPedido(call, callback){
-    const pedido = {
-        item: call.request.item,
-        preco: call.request.preco
-    }
-    // console.log("O item " + JSON.stringify(cardapio));
-    itensPedidos.push(cardapio);
-    callback(null, {});
+    const posicao = call.request.posicao;
+    const pedido = itensCardapio[posicao];
+    itensPedidos.push(pedido);
+    callback(null, pedido);
 }
 function listarPedidos(call, callback){
     callback(null, {pedidos: itensPedidos});
 }
 function excluirPedido(call, callback){
-    const posicao = call.request.posicao - 1;
+    const posicao = call.request.posicao;
 
-    if(posicao >= itensCardapio.length){
-        console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
+    if(posicao >= itensPedidos.length){
+        //console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
     }else {
         itensPedidos.splice(posicao,1);
-        console.log('Item apagado com sucesso!');
+        //console.log('Item apagado com sucesso!');
     }
 }
-function finalizarCompra(call, callback){
-
-}
-function cancelar(call, callback){
-
-}
+function finalizarCompra(call, callback){}
+function cancelar(call, callback){}
 
 const server = new grpc.Server();
 

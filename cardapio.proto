@@ -1,33 +1,36 @@
 syntax = "proto3";
-
 package cardapio;
 
-message Cardapio {
-    string item = 1;
+message Item {
+    string nome = 1;
     float preco = 2;
 }
-
 message ImprimeCardapio {
-    repeated Cardapio cardapio = 1;
+    repeated Item cardapio = 1;
 }
-
 message Posicao {
     int32 posicao = 1;
 }
-
+message Pedido {
+    string nome = 1;
+    float preco = 2;
+}
+message ImprimePedidos {
+    repeated Pedido pedidos = 1;
+}
 message Vazio { }
 
 
 service ServicoCardapio {
     rpc ListarItens (Vazio) returns (ImprimeCardapio);
-    rpc ConsultarItem (Posicao) returns (Cardapio);
-    rpc CadastrarItem (Cardapio) returns (Vazio);
+    rpc ConsultarItem (Posicao) returns (Item);
+    rpc CadastrarItem (Item) returns (Vazio);
     rpc ExcluirItem (Posicao) returns (Vazio);
 
-    rpc RealizarPedido (Posicao) returns (Vazio);
-    rpc ListarPedidos (Posicao) returns (Cardapio);
+    rpc RealizarPedido (Posicao) returns (Item);
+    rpc ListarPedidos (Vazio) returns (ImprimePedidos);
     rpc ExcluirPedido (Posicao) returns (Vazio);
-    rpc FinalizarCompra (Vazio) returns (Vazio);
 
+    rpc FinalizarCompra (Vazio) returns (Vazio);
     rpc Cancelar (Vazio) returns (Vazio);
 }
