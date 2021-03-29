@@ -22,26 +22,26 @@ const protoDescriptor = grpc.loadPackageDefinition(packageDefinition).cardapio;
 const client = new protoDescriptor.ServicoCardapio('127.0.0.1:50051',
                                     grpc.credentials.createInsecure());
 
-client.CadastraItem({item: 'Pizza', preco:25.00}, function(err, response){
+client.CadastrarItem({item: 'Pizza', preco:25.00}, function(err, response){
     if (err != null) {
         console.log("Ocorreu um erro invocando o procedimento CadastraItem");
         return;
     }
     console.log('Registrado com sucesso!');
-    client.CadastraItem({item: 'Hamburguer', preco:15.00}, function(err, response){
+    client.CadastrarItem({item: 'Hamburguer', preco:15.00}, function(err, response){
         if (err != null) {
             console.log("Ocorreu um erro invocando o procedimento CadastraItem");
             return;
         }
         console.log('Registrado com sucesso!');
     });
-    client.ListaItens({}, function(err, response){
+    client.ListarItens({}, function(err, response){
         const listCar = response.cardapio;
 
         console.log(listCar);
     });
 });
-client.ListaItens({}, function(err, response) {
+client.ListarItens({}, function(err, response) {
     if (err != null) {
         console.log("Ocorreu um erro invocando o procedimento ListarCarros");
         return;

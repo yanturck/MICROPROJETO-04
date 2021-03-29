@@ -19,7 +19,15 @@ message Vazio { }
 
 
 service ServicoCardapio {
-    rpc ListaItens (Vazio) returns (ImprimeCardapio);
-    rpc ConsultaItem (Posicao) returns (Cardapio);
-    rpc CadastraItem (Cardapio) returns (Vazio);
+    rpc ListarItens (Vazio) returns (ImprimeCardapio);
+    rpc ConsultarItem (Posicao) returns (Cardapio);
+    rpc CadastrarItem (Cardapio) returns (Vazio);
+    rpc ExcluirItem (Posicao) returns (Vazio);
+
+    rpc RealizarPedido (Posicao) returns (Vazio);
+    rpc ListarPedidos (Posicao) returns (Cardapio);
+    rpc ExcluirPedido (Posicao) returns (Vazio);
+    rpc FinalizarCompra (Vazio) returns (Vazio);
+
+    rpc Cancelar (Vazio) returns (Vazio);
 }
