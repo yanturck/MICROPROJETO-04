@@ -28,8 +28,14 @@ function listarItens(call, callback) {
     callback(null, {cardapio: itensCardapio});
 }
 function consultaItem(call, callback) {
-    const posicao = call.request.posicao;
-    callback(null, intensCardapio[posicao]);
+    const posicao = call.request.posicao - 1;
+
+    if (posicao >= itensCardapio.length || posicao === -1){ // Verificando se a posição existe no CARDAPIO
+        callback(null, {nome: 'erro', preco: 0});
+    }else {
+        const item = itensCardapio[posicao];
+        callback(null, {nome: item.nome, preco: item.preco});
+    }
 }
 function cadastraItem(call, callback) {
     const cardapio = {
@@ -42,34 +48,36 @@ function cadastraItem(call, callback) {
 function excluirItem(call, callback){
     const posicao = call.request.posicao - 1;
 
-    if(posicao >= itensCardapio.length){
-        //console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
+    if(posicao >= itensCardapio.length || posicao === -1){ // Verificando se existe a posicao no CARDAPIO
+        callback(null, {nome: 'erro', preco: 'erro'});
     }else {
-        itensCardapio.splice(posicao,1);
-        //console.log('Item apagado com sucesso!');
+        const excluido = itensCardapio.splice(posicao,1);
+        callback(null, {nome: excluido.nome, preco: excluido.preco});
     }
 }
 /* =========================== FUNCOES PARA OS PEDIDOS =========================== */
 function realizarPedido(call, callback){
-    const posicao = call.request.posicao;
-    const pedido = itensCardapio[posicao];
-    itensPedidos.push(pedido);
-    //const nome = pedido.nome;
-    //const preco = pedido.preco;
-    console.log(posicao);
-    callback(null, {pedido});
+    const posicao = call.request.posicao - 1;
+    
+    if (posicao >= itensCardapio.length || posicao === -1) { // Verificando se existe a posicao no CARDAPIO
+        callback(null, {nome: 'erro', preco: 0});
+    }else {
+        const pedido = itensCardapio[posicao];
+        itensPedidos.push(pedido);
+        callback(null, {nome: pedido.nome, preco: pedido.preco});
+    }
 }
 function listarPedidos(call, callback){
     callback(null, {pedidos: itensPedidos});
 }
 function excluirPedido(call, callback){
-    const posicao = call.request.posicao;
+    const posicao = call.request.posicao -1;
 
-    if(posicao >= itensPedidos.length){
-        //console.log('Item inexistente!:(\nDigite um item que esteja no cardapio.');
+    if(posicao >= itensPedidos.length || posicao === -1){ // Verificando se existe a posicao no PEDIDOS
+        callback(null, {nome: 'erro', preco: 0});
     }else {
-        itensPedidos.splice(posicao,1);
-        //console.log('Item apagado com sucesso!');
+        const excluido = itensPedidos.splice(posicao,1);
+        callback(null, {nome: excluido[0].nome, preco: excluido[0].preco});
     }
 }
 function finalizarCompra(call, callback){}

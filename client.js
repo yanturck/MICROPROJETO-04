@@ -28,26 +28,26 @@ console.log("Bem-vido ao sFood!\n[V] para visualizar o cardapio\n[P] para Listar
 rl.addListener("line", line => {
     const comando = line.toUpperCase();
 
-    if (comando === 'V') {
+    if (comando === 'V') { // Visualizar Cardapio
         var cardapio = '';
         client.ListarItens({}, function(err, response) {
             if (err != null) {
-                console.log("Ocorreu um erro invocando o procedimento ListarCarros");
+                console.log("\nOcorreu um erro! :*(\n");
                 return;
             }else {
                 for (var i = 0; i < response.cardapio.length; i++){
                     var item = (i+1) + '.' + response.cardapio[i].nome + ' - R$ ' + response.cardapio[i].preco + '\n';
                     cardapio = cardapio + item;
                 }
-                console.log(" >>>> O cardapio do dia é:\n" + cardapio);
+                console.log("\n>>>> O cardapio do dia é:\n" + cardapio + '\n');
             }
         });
-    } else if (comando == 'P') {
+    } else if (comando == 'P') { // Visualizar Pedidos
         var pedidos = '';
         var total = 0;
         client.ListarPedidos({}, function(err, response){
             if (err != null) {
-                console.log("Ocorreu um erro invocando o procedimento Listar Pedidos");
+                console.log("\nOcorreu um erro! :*(\n");
                 return;
             }else {
                 for (var i = 0; i < response.pedidos.length; i++){
@@ -55,82 +55,48 @@ rl.addListener("line", line => {
                     pedidos = pedidos + item;
                     total = total + response.pedidos[i].preco;
                 }
-                console.log(' >>>> Os seus pedidos são:\n' +  pedidos + '\nValor total: ' + total);
+                console.log('\n>>>> Os seus pedidos são:\n' +  pedidos + '\nValor total: ' + total + '\n');
             }
         });
-    }else if (comando[0] == 'A') {
+    }else if (comando[0] == 'A') { // Realizar Pedido [A + Indice do Pedido]
         const posicao = parseInt(comando.slice(1));
-        client.RealizarPedido(posicao, function(err, response){
+        client.RealizarPedido({posicao}, function(err, response){
             if (err != null) {
-                console.log("Ocorreu um erro invocando o procedimento Realizar Pedido!:(");
+                console.log("\nOcorreu um erro! :*(\n");
                 return;
+            } else if (response.nome === 'erro' && response.preco === 0) {
+                console.log('\nDesculpe! :*(\nItem não existe!\n');
+            }else{
+                console.log('\nPedido: ' + response.nome + ' no valor de R$ ' + response.preco + ' foi adicionado! :)\nMais alguma coisa? S2\n');
             }
-            //console.log('Pedido ' + response.item.nome + ' no valor de R$ ' + response.item.preco + ' foi adicionado!:)');
-            console.log(JSON.stringify(response));
         });
-    }else if (comando == 'E') {
-        client.ExcluirPedido(0, function(err, response){
+    }else if (comando[0] == 'E') { // Excluir Pedido [E + Indice do Pedido]
+        const posicao = parseInt(comando.slice(1));
+        client.ExcluirPedido({posicao}, function(err, response){
             if (err != null) {
-                console.log("Ocorreu um erro invocando o procedimento Excluir Pedido!:(");
+                console.log("\nOcorreu um erro! :*(");
                 return;
+            }else if (response.nome === 'erro' && response.preco === 0) {
+                console.log('\nDesculpe! :*(\nPedido não existe!\n');
+            }else {
+                console.log('\nPedido: ' + response.nome + ' no valor de R$ ' + response.preco + ' foi excluido com sucesso! :\\\n');
             }
-            console.log('Pedido excluido com sucesso!');
         });
-
-    }else if (comando == 'B') {
-        client.ConsultarItem(0, function(err, response){
+    }else if (comando[0] == 'B') { // Buscar Item
+        const posicao = parseInt(comando.slice(1));
+        client.ConsultarItem({posicao}, function(err, response){
             if (err != null) {
-                console.log("Ocorreu um erro invocando o procedimento Consultar Item!");
+                console.log("Ocorreu um erro! :*(");
                 return;
+            }else if (response.nome === 'erro' && response.preco === 0) {
+                console.log('\nDesculpe! :*(\nItem não existe!\n');
+            }else {
+                console.log('\nItem encontrado: ' + response.nome + ' no valor de R$ ' + response.preco + '\n');
             }
-            console.log('Item encontrado: ' + JSON.stringify(response));
         });
-    }else if (comando == 'F') {
+    }else if (comando == 'F') { // Finalizar Comprar
         console.log('Ainda preciso trabalhar nisso!:\\');
-    }else if (comando == 'C') {
+    }else if (comando == 'C') { // Cancelar Compra ou Processo
         console.log('Ainda preciso trabalhar nisso!:\\');
     }
 });
-
-// client.CadastrarItem({item: 'Pizza', preco:25.00}, function(err, response){
-//     if (err != null) {
-//         console.log("Ocorreu um erro invocando o procedimento CadastraItem");
-//         return;
-//     }
-//     console.log('Registrado com sucesso!');
-//     client.CadastrarItem({item: 'Hamburguer', preco:15.00}, function(err, response){
-//         if (err != null) {
-//             console.log("Ocorreu um erro invocando o procedimento CadastraItem");
-//             return;
-//         }
-//         console.log('Registrado com sucesso!');
-//     });
-// });
-// client.ListarItens({}, function(err, response) {
-//     if (err != null) {
-//         console.log("Ocorreu um erro invocando o procedimento ListarCarros");
-//         return;
-//     }
-//     console.log(" >>>>> O cardapio do dia é: " + JSON.stringify(response.cardapio) );
-//     client.RealizarPedido(0, function(err, response){
-//         if (err != null) {
-//             console.log("Ocorreu um erro invocando o procedimento Realizar Pedido!:(");
-//             return;
-//         }
-//         console.log('Pedido ' + response.nome + ' no valor de ' + response.preco + ' adicionado!:)');
-//         client.RealizarPedido(2, function(err, response){
-//             if (err != null) {
-//                 console.log("Ocorreu um erro invocando o procedimento Realizar Pedido!:(");
-//                 return;
-//             }
-//             console.log('Pedido ' + response.nome + ' no valor de ' + response.preco + ' adicionado!:)');
-//             client.ListarPedidos({}, function(err, response){
-//                 if (err != null) {
-//                     console.log("Ocorreu um erro invocando o procedimento Listar Pedidos");
-//                     return;
-//                 }
-//                 console.log(" >>>>> Os seus pedidos são: " + JSON.stringify(response.pedidos) );
-//             });
-//         });
-//     });
-// });

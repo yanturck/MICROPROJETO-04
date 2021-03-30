@@ -18,18 +18,18 @@ message Pedido {
 message ImprimePedidos {
     repeated Pedido pedidos = 1;
 }
-message Vazio { }
+message Vazio {}
 
 
 service ServicoCardapio {
     rpc ListarItens (Vazio) returns (ImprimeCardapio);
     rpc ConsultarItem (Posicao) returns (Item);
     rpc CadastrarItem (Item) returns (Vazio);
-    rpc ExcluirItem (Posicao) returns (Vazio);
+    rpc ExcluirItem (Posicao) returns (Item);
 
-    rpc RealizarPedido (Posicao) returns (Item);
+    rpc RealizarPedido (Posicao) returns (Pedido);
     rpc ListarPedidos (Vazio) returns (ImprimePedidos);
-    rpc ExcluirPedido (Posicao) returns (Vazio);
+    rpc ExcluirPedido (Posicao) returns (Pedido);
 
     rpc FinalizarCompra (Vazio) returns (Vazio);
     rpc Cancelar (Vazio) returns (Vazio);
