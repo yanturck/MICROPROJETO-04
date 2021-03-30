@@ -19,7 +19,7 @@ var itensCardapio = [{nome: 'Pizza', preco: 25.00},
                     {nome: 'Coxinha', preco: 4.50},
                     {nome: 'Hamburguer', preco: 8.00},
                     {nome: 'Refrigerante 1L', preco: 2.00}];
-var itensPedidos = [];
+var itensPedidos = [{nome: 'Pizza', preco: 25.00}];
 const senha = '123456';
 var admin = false;
 
@@ -54,7 +54,10 @@ function realizarPedido(call, callback){
     const posicao = call.request.posicao;
     const pedido = itensCardapio[posicao];
     itensPedidos.push(pedido);
-    callback(null, pedido);
+    //const nome = pedido.nome;
+    //const preco = pedido.preco;
+    console.log(posicao);
+    callback(null, {pedido});
 }
 function listarPedidos(call, callback){
     callback(null, {pedidos: itensPedidos});
