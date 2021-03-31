@@ -85,8 +85,8 @@ function finalizarCompra(call, callback){
     itensPedidos = [];
 }
 function cancelar(call, callback){
-    itensPedidos = [];
     callback(null, {});
+    itensPedidos = [];
 }
 
 const server = new grpc.Server();

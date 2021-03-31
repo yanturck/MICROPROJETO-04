@@ -113,7 +113,13 @@ rl.addListener("line", line => {
             }
         });
     }else if (comando == 'C') { // Cancelar Compra ou Processo
-        console.log('\nCompra cancelada! :*(\n');
-        rl.close();
+        client.Cancelar({}, function(err, response){
+            if (err != null) {
+                console.log("\nOcorreu um erro! :*(\n");
+                return;
+            }
+            console.log('\nCompra cancelada! :*(\n');
+            rl.close();
+        });
     }
 });
