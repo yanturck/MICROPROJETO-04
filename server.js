@@ -80,8 +80,14 @@ function excluirPedido(call, callback){
         callback(null, {nome: excluido[0].nome, preco: excluido[0].preco});
     }
 }
-function finalizarCompra(call, callback){}
-function cancelar(call, callback){}
+function finalizarCompra(call, callback){
+    callback(null, {pedidos: itensPedidos});
+    itensPedidos = [];
+}
+function cancelar(call, callback){
+    itensPedidos = [];
+    callback(null, {});
+}
 
 const server = new grpc.Server();
 

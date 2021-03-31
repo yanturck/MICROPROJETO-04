@@ -31,6 +31,6 @@ service ServicoCardapio {
     rpc ListarPedidos (Vazio) returns (ImprimePedidos);
     rpc ExcluirPedido (Posicao) returns (Pedido);
 
-    rpc FinalizarCompra (Vazio) returns (Vazio);
+    rpc FinalizarCompra (Vazio) returns (ImprimePedidos);
     rpc Cancelar (Vazio) returns (Vazio);
 }

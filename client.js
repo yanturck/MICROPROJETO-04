@@ -95,8 +95,25 @@ rl.addListener("line", line => {
             }
         });
     }else if (comando == 'F') { // Finalizar Comprar
-        console.log('Ainda preciso trabalhar nisso!:\\');
+        var pedidos = '';
+        var total = 0;
+        client.FinalizarCompra({}, function(err, response){
+            if (err != null) {
+                console.log("\nOcorreu um erro! :*(\n");
+                return;
+            }else {
+                for (var i = 0; i < response.pedidos.length; i++){
+                    var item = (i+1) + '.' + response.pedidos[i].nome + ' - R$ ' + response.pedidos[i].preco + '\n';
+                    pedidos = pedidos + item;
+                    total = total + response.pedidos[i].preco;
+                }
+                console.log('\nOK! Compra finalizada! B)\n');
+                console.log('\n>>>> Os seus pedidos são:\n' +  pedidos + '\nValor total: ' + total + '\n');
+                rl.close();
+            }
+        });
     }else if (comando == 'C') { // Cancelar Compra ou Processo
-        console.log('Ainda preciso trabalhar nisso!:\\');
+        console.log('\nCompra cancelada! :*(\n');
+        rl.close();
     }
 });
