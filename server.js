@@ -21,7 +21,6 @@ var itensCardapio = [{nome: 'Pizza', preco: 25.00},
                     {nome: 'Refrigerante 1L', preco: 2.00}];
 var itensPedidos = [{nome: 'Pizza', preco: 25.00}];
 const senha = '123456';
-var admin = false;
 
 /* =========================== FUNCOES PARA O CARDAPIO =========================== */
 function listarItens(call, callback) {
@@ -52,7 +51,7 @@ function excluirItem(call, callback){
         callback(null, {nome: 'erro', preco: 'erro'});
     }else {
         const excluido = itensCardapio.splice(posicao,1);
-        callback(null, {nome: excluido.nome, preco: excluido.preco});
+        callback(null, {nome: excluido[0].nome, preco: excluido[0].preco});
     }
 }
 /* =========================== FUNCOES PARA OS PEDIDOS =========================== */
@@ -84,6 +83,16 @@ function finalizarCompra(call, callback){
     callback(null, {pedidos: itensPedidos});
     itensPedidos = [];
 }
+/* =========================== CONTROLE DO ADIMINISTRATIVO =========================== */
+function admin(call, callback){
+    var tentaSenha = call.request.senha;
+    if (tentaSenha === senha) {
+        callback(null, {acess: true});
+    }else {
+        callback(null, {acess: false});
+    }
+}
+/* =========================== FUNCAO GERAL =========================== */
 function cancelar(call, callback){
     callback(null, {});
     itensPedidos = [];
@@ -101,6 +110,7 @@ server.addService(servicoCardapio.service,
                             ListarPedidos: listarPedidos,
                             ExcluirPedido: excluirPedido,
                             FinalizarCompra: finalizarCompra,
+                            ADMIN: admin,
                             Cancelar: cancelar,
                         });
 

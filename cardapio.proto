@@ -18,6 +18,12 @@ message Pedido {
 message ImprimePedidos {
     repeated Pedido pedidos = 1;
 }
+message Chave {
+    string senha = 1;
+}
+message Acesso {
+    bool acess = 1;
+}
 message Vazio {}
 
 
@@ -30,7 +36,9 @@ service ServicoCardapio {
     rpc RealizarPedido (Posicao) returns (Pedido);
     rpc ListarPedidos (Vazio) returns (ImprimePedidos);
     rpc ExcluirPedido (Posicao) returns (Pedido);
-
     rpc FinalizarCompra (Vazio) returns (ImprimePedidos);
+
+    rpc ADMIN (Chave) returns (Acesso);
+
     rpc Cancelar (Vazio) returns (Vazio);
 }
