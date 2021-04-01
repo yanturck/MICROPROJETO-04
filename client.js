@@ -23,15 +23,16 @@ const protoDescriptor = grpc.loadPackageDefinition(packageDefinition).cardapio;
 const client = new protoDescriptor.ServicoCardapio('127.0.0.1:50051',
                                     grpc.credentials.createInsecure());
 
-const menu = "Bem-vido ao sFood!\n[V] para visualizar o cardapio\n[P] para Listar os Pedidos\n[A+IndiceProduto] para Adicionar um Pedido\nExemplo: A4 (para add o BROTINHO)\n[B+IndiceProduto] para Buscar Produto\n[E+IndicePedido] para Excluir um Pedido\n[F] para Finalizar\n[X+Senha] para Acessar o menu Administrativo\nOu digite MENU a qualquer comento para ter acesso as opcões 00.\n"
-const menuADM = "\nEstamos no menu do Administador,\nagora vc pode adicionar [ADD+NomeItem+Preco]\nExemplo: ADD+Pastel+3.0\nou deletar [DEL+IndiceItem] um item do cardapio.\n[V] para visualizar o cardapio\n[S]Para cancelar.\n";
+const menu = "Bem-vido ao sFood!\n[V]Para Visualizar o Cardapio\n[P]Para Listar os Pedidos\n[A+IndiceProduto]Para Adicionar um Pedido\nExemplo: A4 (para add o BROTINHO)\n[B+IndiceProduto]Para Buscar Produto\n[E+IndicePedido]Para Excluir um Pedido\n[F]Para Finalizar\n[C]Para cancelar\n[X+Senha]Para Acessar o menu Administrativo\nOu digite MENU a qualquer momento para ter acesso as opcões.\n"
+const menuADM = "Estamos no menu do Administador,\nagora vc pode adicionar [ADD+NomeItem+Preco]\nExemplo: ADD+Pastel+3.0\nou deletar [DEL+IndiceItem] um item do cardapio.\n[V]Para visualizar o cardapio\n[S]Para Sair\nOu digite MENU a qualquer momento para ter acesso as opcões.\n";
 var admin = false;
 
 console.log(menu);
-if (admin === false){
-    rl.addListener("line", line => {
-        const comando = line.toUpperCase();
-        
+
+rl.addListener("line", line => {
+    const comando = line.toUpperCase();
+    
+    if (admin === false){
         if (comando == 'MENU'){
             console.log(menu);
         }else if (comando === 'V') { // Visualizar Cardapio
@@ -144,11 +145,8 @@ if (admin === false){
         }else {
             console.log('\nDesculpa! :\\\nComando não aceito!\n');
         }
-    });
-}else if (admin === true) {
-    rl.addListener("line", line => {
-        const aux = line.toUpperCase();
-        const comando = aux.slice(0,3);
+    }else if (admin === true) {
+        const aux = comando.slice(0,3);
     
         if (comando == 'MENU') {
             console.log(menuADM);
@@ -166,15 +164,15 @@ if (admin === false){
                     console.log("\n>>>> O cardapio do dia é:\n" + cardapio + '\n');
                 }
             });
-        }else if (comando == 'ADD') {
-            const item = aux.split('+');
+        }else if (aux == 'ADD') {
+            const item = comando.split('+');
             client.CadastrarItem({nome: item[1], preco: parseInt(item[2])}, function(err, response){
                 if (err != null) {
                     console.log("\nOcorreu um erro! :*(\n");
                 }
                 console.log('\nItem Cadastrado! :D\n');
             });
-        }else if (comando == 'DEL') {
+        }else if (aux == 'DEL') {
             const posicao = parseInt(comando.slice(3));
             client.ExcluirItem({posicao}, function(err, response){
                 if (err != null) {
@@ -186,18 +184,17 @@ if (admin === false){
                     console.log('\nItem: ' + response.nome + ' no valor de R$ ' + response.preco + ' foi excluido com sucesso! :\\\n');
                 }
             });
-        }else if (aux == 'S') {
+        }else if (comando == 'S') {
             client.Cancelar({}, function(err, response){
                 if (err != null) {
                     console.log("\nOcorreu um erro! :*(\n");
                     return;
                 }
-                console.log('\nCompra cancelada! :*(\n');
+                console.log(menu);
                 admin = false;
-                rl.close();
             });
         }else {
             console.log('\nDesculpa! :\\\nComando não aceito!\n');
         }
-    });
-}
+    }
+});

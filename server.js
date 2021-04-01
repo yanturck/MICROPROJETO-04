@@ -38,7 +38,7 @@ function consultaItem(call, callback) {
 }
 function cadastraItem(call, callback) {
     const cardapio = {
-        item: call.request.item,
+        nome: call.request.nome,
         preco: call.request.preco
     }
     itensCardapio.push(cardapio);
