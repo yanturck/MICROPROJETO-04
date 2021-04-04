@@ -23,7 +23,7 @@ const protoDescriptor = grpc.loadPackageDefinition(packageDefinition).cardapio;
 const client = new protoDescriptor.ServicoCardapio('127.0.0.1:50051',
                                     grpc.credentials.createInsecure());
 
-const menu = "Bem-vido ao sFood!\n[V]Para Visualizar o Cardapio\n[P]Para Listar os Pedidos\n[A+IndiceProduto]Para Adicionar um Pedido\nExemplo: A4 (para add o BROTINHO)\n[B+IndiceProduto]Para Buscar Produto\n[E+IndicePedido]Para Excluir um Pedido\n[F]Para Finalizar\n[C]Para cancelar\n[X+Senha]Para Acessar o menu Administrativo\nOu digite MENU a qualquer momento para ter acesso as opcões.\n"
+const menu = "Bem-vido ao sFood!\n[V]Para Visualizar o Cardapio\n[P]Para Listar os Pedidos\n[A+IndiceProduto]Para Adicionar um Pedido\nExemplo: A4 (para add o BROTINHO)\n[B+IndiceProduto]Para Buscar Produto\n[E+IndicePedido]Para Excluir um Pedido\n[F]Para Finalizar\n[C]Para cancelar\n[X+Senha]Para Acessar o menu Administrativo (Senha: 123456)\nOu digite MENU a qualquer momento para ter acesso as opcões.\n"
 const menuADM = "Estamos no menu do Administador,\nagora vc pode adicionar [ADD+NomeItem+Preco]\nExemplo: ADD+Pastel+3.0\nou deletar [DEL+IndiceItem] um item do cardapio.\n[V]Para visualizar o cardapio\n[S]Para Sair\nOu digite MENU a qualquer momento para ter acesso as opcões.\n";
 var admin = false;
 

@@ -15,11 +15,20 @@ var protoDescriptor = grpc.loadPackageDefinition(packageDefinition).cardapio;
 
 const servicoCardapio = protoDescriptor.ServicoCardapio;
 
-var itensCardapio = [{nome: 'Pizza', preco: 25.00},
-                    {nome: 'Coxinha', preco: 4.50},
-                    {nome: 'Hamburguer', preco: 8.00},
+var itensCardapio = [{nome: 'PIZZA', preco: 25.00},
+                    {nome: 'BROTINHO', preco: 10.00},
+                    {nome: 'COXINHA', preco: 4.50},
+                    {nome: 'HAMBURGUER', preco: 8.00},
+                    {nome: 'LASANHA', preco: 6.00},
+                    {nome: 'PASTEL', preco: 3.00},
+                    {nome: 'MISTO', preco: 4.00},
+                    {nome: 'BOLO DE CHOCOLATE', preco: 19.00},
+                    {nome: 'PIZZA DE BRIGADEIRO', preco: 20.00},
+                    {nome: 'PUDIM', preco: 15.00},
+                    {nome: 'SORVETE', preco: 5.00},
+                    {nome: 'AGUA', preco: 1.00},
                     {nome: 'Refrigerante 1L', preco: 2.00}];
-var itensPedidos = [{nome: 'Pizza', preco: 25.00}];
+var itensPedidos = [];
 const senha = '123456';
 
 /* =========================== FUNCOES PARA O CARDAPIO =========================== */
